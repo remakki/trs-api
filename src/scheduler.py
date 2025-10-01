@@ -11,6 +11,7 @@ from src.digests.schemas import DigestCreate
 scheduler = AsyncIOScheduler()
 
 async def create_daily_digest(delta_hours: int) -> None:
+    log.info("Creating daily digest")
     try:
         service = await get_digest_service()
 

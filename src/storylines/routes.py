@@ -1,5 +1,6 @@
 from faststream.rabbit import RabbitRouter, RabbitQueue
 
+from src import log
 from src.storylines.dependencies import StorylineServiceDepFS
 from src.storylines.schemas import StorylineMessage
 from src.tags.dependencies import TagServiceDepFS
@@ -12,4 +13,5 @@ async def storyline_handler(
     storyline_service: StorylineServiceDepFS,
     tag_service: TagServiceDepFS
 ) -> None:
+    log.info(f"Received new storyline message: {message.model_dump()}")
     await storyline_service.create_storyline(message, tag_service)
