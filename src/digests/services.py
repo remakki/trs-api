@@ -6,11 +6,11 @@ from .rabbit_routes import publish_new_digest
 from .. import log
 from ..api.ai import OllamaClient
 from ..api.ai.promts import CREATE_DIGEST_PROMPT
-from ..storylines.dependencies import get_storyline_service
 from ..storylines.models import StorylineModel
 from .models import DigestModel, DigestType
 from .repositories import DigestRepository
 from .schemas import DigestCreate, Digest
+from ..storylines.services import StorylineService
 
 
 class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, DigestRepository]):
@@ -21,10 +21,10 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
     def __init__(self, session, **kwargs):
         kwargs.setdefault("auto_commit", True)
         super().__init__(session=session, **kwargs)
+        self._storyline_service = StorylineService(session=session)
 
     async def create_digest(self, digest: DigestCreate) -> DigestModel:
-        storyline_service = await get_storyline_service()
-        storylines = await storyline_service.list(
+        storylines = await self._storyline_service.list(
             StorylineModel.start_time >= digest.start_time,
             StorylineModel.end_time <= digest.end_time,
         )
@@ -33,9 +33,10 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
         message = json.dumps(
             [
                 {
-                    "start_time": storyline.start_time,
-                    "end_time": storyline.end_time,
+                    "start_time": storyline.start_time.isoformat(),
+                    "end_time": storyline.end_time.isoformat(),
                     "summary": storyline.summary,
+                    "title": storyline.title,
                 }
                 for storyline in storylines
             ]

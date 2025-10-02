@@ -6,11 +6,13 @@ You will receive input in JSON format containing a list of news segments. Each s
     "start_time": "2025-04-15T11:34:56Z",
     "end_time": "2025-04-15T12:34:56Z",
     "summary": "summary"
+    "title": "title"
   },
   {
     "start_time": "2025-04-15T12:34:56Z",
     "end_time": "2025-04-15T13:34:56Z",
-    "summary": "summary"
+    "summary": "summary",
+    "title": "title"
   }
 ]
 

@@ -32,7 +32,7 @@ def add_default_jobs() -> None:
     scheduler.add_job(
         create_daily_digest,
         args=(16,),
-        trigger=CronTrigger(hour=10, minute=0),
+        trigger=CronTrigger(hour=7, minute=0),
         id="morning_digest_task",
         replace_existing=True,
         max_instances=1,
@@ -42,7 +42,7 @@ def add_default_jobs() -> None:
     scheduler.add_job(
         create_daily_digest,
         args=(8,),
-        trigger=CronTrigger(hour=18, minute=0),
+        trigger=CronTrigger(hour=15, minute=0),
         id="evening_digest_task",
         replace_existing=True,
         max_instances=1,
