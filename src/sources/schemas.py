@@ -1,5 +1,6 @@
 from src.schemas import BaseSchema
 
+
 class Source(BaseSchema):
     id: int
     title: str

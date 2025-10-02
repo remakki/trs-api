@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta, timezone
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
@@ -9,6 +9,7 @@ from src.digests.models import DigestType
 from src.digests.schemas import DigestCreate
 
 scheduler = AsyncIOScheduler()
+
 
 async def create_daily_digest(delta_hours: int) -> None:
     log.info("Creating daily digest")
@@ -25,6 +26,7 @@ async def create_daily_digest(delta_hours: int) -> None:
 
     except Exception as e:
         log.error(f"Ошибка при создании автоматического дайджеста: {str(e)}")
+
 
 def add_default_jobs() -> None:
     scheduler.add_job(

@@ -1,5 +1,5 @@
-from sqlalchemy import Table, Column, ForeignKey
 from advanced_alchemy.base import orm_registry
+from sqlalchemy import Column, ForeignKey, Table
 
 storyline_tag_table = Table(
     "storylines_tags",

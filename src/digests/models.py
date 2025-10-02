@@ -2,8 +2,8 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from advanced_alchemy.base import BigIntAuditBase
-from sqlalchemy.orm import Mapped, relationship, mapped_column
 from sqlalchemy import Enum as SQLEnum
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.enums import BaseEnum
 from src.relationships import digest_storyline_table

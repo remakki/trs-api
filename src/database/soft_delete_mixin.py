@@ -1,7 +1,9 @@
 from __future__ import annotations
+
 from datetime import datetime, timezone
 
 from sqlalchemy.orm import Mapped
+
 
 class SoftDeleteMixin:
     deleted_at: Mapped[datetime | None]

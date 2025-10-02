@@ -1,13 +1,14 @@
 from advanced_alchemy.extensions.fastapi import service
 
+from ..tags.services import TagService
 from .models import StorylineModel
-from .publisher import publish_new_storyline
 from .repositories import StorylineRepository
 from .schemas import StorylineMessage
-from ..tags.services import TagService
 
 
-class StorylineService(service.SQLAlchemyAsyncRepositoryService[StorylineModel, StorylineRepository]):
+class StorylineService(
+    service.SQLAlchemyAsyncRepositoryService[StorylineModel, StorylineRepository]
+):
     """Storyline Service"""
 
     repository_type = StorylineRepository
@@ -15,9 +16,10 @@ class StorylineService(service.SQLAlchemyAsyncRepositoryService[StorylineModel, 
     def __init__(self, session, **kwargs):
         kwargs.setdefault("auto_commit", True)
         super().__init__(session=session, **kwargs)
+        self._tag_service = TagService(session=session)
 
-    async def create_storyline(self, message: StorylineMessage, tag_service: TagService) -> StorylineModel:
-        tags = await tag_service.create_tags(message.tags)
+    async def create_storyline(self, message: StorylineMessage) -> StorylineModel:
+        tags = await self._tag_service.create_tags(message.tags)
         storyline = StorylineModel(
             start_time=message.start_time,
             end_time=message.end_time,
@@ -29,7 +31,5 @@ class StorylineService(service.SQLAlchemyAsyncRepositoryService[StorylineModel, 
             tags=tags,
         )
         new_storyline = await self.create(storyline)
-
-        await publish_new_storyline(new_storyline)
 
         return new_storyline

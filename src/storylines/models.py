@@ -3,13 +3,14 @@ from typing import TYPE_CHECKING
 
 from advanced_alchemy.base import BigIntAuditBase
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, relationship, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from src.relationships import storyline_tag_table
+from src.relationships import digest_storyline_table, storyline_tag_table
+from src.sources.models import SourceModel
 
 if TYPE_CHECKING:
+    from src.digests.models import DigestModel
     from src.tags.models import TagModel
-    from src.sources.models import SourceModel
 
 
 class StorylineModel(BigIntAuditBase):
@@ -30,6 +31,12 @@ class StorylineModel(BigIntAuditBase):
 
     tags: Mapped[list["TagModel"]] = relationship(
         secondary=storyline_tag_table,
+        back_populates="storylines",
+        lazy="selectin",
+    )
+
+    digests: Mapped[list["DigestModel"]] = relationship(
+        secondary=digest_storyline_table,
         back_populates="storylines",
         lazy="selectin",
     )

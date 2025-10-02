@@ -80,32 +80,11 @@ class Logging(Generic[RendererType]):
                     },
                 },
                 "loggers": {
-                    "": {
-                        "handlers": ["default"],
-                        "level": level,
-                        "propagate": False,
-                    },
-                    "uvicorn.access": {
-                        "handlers": [],
-                        "level": "NOTSET",
-                        "propagate": False,
-                    },
-                    "uvicorn.error": {
-                        "handlers": [],
-                        "level": "NOTSET",
-                        "propagate": False,
-                    },
-                    **{
-                        logger: {
-                            "handlers": [],
-                            "propagate": True,
-                        }
-                        for logger in [
-                            "uvicorn",
-                            "sqlalchemy",
-                            "arq",
-                        ]
-                    },
+                    "": {"handlers": ["default"], "level": level, "propagate": False},
+                    "uvicorn": {"handlers": [], "level": "INFO", "propagate": True},
+                    "uvicorn.error": {"handlers": [], "level": "INFO", "propagate": True},
+                    "uvicorn.access": {"handlers": [], "level": "NOTSET", "propagate": False},
+                    "sqlalchemy": {"handlers": [], "level": "WARNING", "propagate": True},
                 },
             }
         )

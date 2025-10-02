@@ -1,11 +1,11 @@
 from advanced_alchemy.repository import SQLAlchemyAsyncRepository
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 
-from .models import DigestModel
-from .schemas import DigestTag
 from ..relationships import digest_storyline_table, storyline_tag_table
 from ..storylines.models import StorylineModel
 from ..tags.models import TagModel
+from .models import DigestModel
+from .schemas import DigestTag
 
 
 class DigestRepository(SQLAlchemyAsyncRepository[DigestModel]):
@@ -32,6 +32,4 @@ class DigestRepository(SQLAlchemyAsyncRepository[DigestModel]):
         result = await self.session.execute(stmt)
         rows = result.all()
 
-        return [
-            DigestTag(title=row.tag_name, quantity=row.tag_count) for row in rows
-        ]
+        return [DigestTag(title=row.tag_name, quantity=row.tag_count) for row in rows]

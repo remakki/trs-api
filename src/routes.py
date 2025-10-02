@@ -3,6 +3,8 @@ from fastapi.responses import RedirectResponse
 from scalar_fastapi import get_scalar_api_reference
 
 from src.schemas import HealthCheck
+from src.storylines.rabbit_routes import rabbit_router as storyline_rabbit_router
+from src.digests.rabbit_routes import rabbit_router as digests_rabbit_router
 
 router = APIRouter(tags=["Monitoring"])
 
@@ -38,3 +40,5 @@ async def redirect_to_docs():
 
 def routes_register(app: FastAPI) -> None:
     app.include_router(router=router)
+    app.include_router(router=storyline_rabbit_router)
+    app.include_router(router=digests_rabbit_router)

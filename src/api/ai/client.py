@@ -1,7 +1,7 @@
 import asyncio
 
 import ollama
-from tenacity import stop_after_attempt, wait_exponential, retry
+from tenacity import retry, stop_after_attempt, wait_exponential
 
 from src.config import settings
 
