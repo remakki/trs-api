@@ -41,20 +41,22 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
                 for storyline in storylines
             ]
         )
+        log.debug("Ollama request", message=message)
 
         try:
             result = await ollama_client.chat(content=message)
             result_json = json.loads(result)
+            log.debug("Ollama response", result=result_json)
             if "title" not in result_json or "summary" not in result_json:
-                raise ValueError("Некорректный формат ответа от Ollama")
+                raise ValueError()
         except json.JSONDecodeError as e:
-            log.error(f"Ошибка при разборе JSON от Ollama: {str(e)}")
+            log.error(f"Error decoding JSON response from Ollama: {str(e)}")
             raise
         except ValueError:
-            log.error("Некорректный формат ответа от Ollama")
+            log.error("Unexpected response format from Ollama")
             raise
         except Exception as e:
-            log.error(f"Ошибка при создании дайджеста с помощью Ollama: {str(e)}")
+            log.error(f"Error communicating with Ollama: {str(e)}")
             raise
 
         new_digest = DigestModel(
@@ -67,7 +69,7 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
         )
         new_digest = await self.create(new_digest)
 
-        log.info("Новый дайджест", digest=new_digest.to_dict())
+        log.info("New digest", digest=new_digest.to_dict())
 
         if digest.type == DigestType.DAILY:
             tags = await self.repository.get_tags(new_digest.id)

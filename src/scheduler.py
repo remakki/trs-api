@@ -25,7 +25,7 @@ async def create_daily_digest(delta_hours: int) -> None:
         await service.create_digest(digest_data)
 
     except Exception as e:
-        log.error(f"Ошибка при создании автоматического дайджеста: {str(e)}")
+        log.error(f"Create digest error: {str(e)}")
 
 
 def add_default_jobs() -> None:
