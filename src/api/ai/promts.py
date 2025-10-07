@@ -36,4 +36,6 @@ The structure must be exactly:
 Do not include extra fields, comments, or explanations.
 The title should be concise and capture the overall news agenda.
 The summary should weave together the different segments into a coherent narrative, ensuring no major event is omitted.
+
+Respond using JSON.
 """
