@@ -30,22 +30,24 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
         )
         ollama_client = OllamaClient(system_prompt=CREATE_DIGEST_PROMPT)
 
-        # message = json.dumps(
-        #     [
-        #         {
-        #             "start_time": storyline.start_time.isoformat(),
-        #             "end_time": storyline.end_time.isoformat(),
-        #             "summary": storyline.summary,
-        #             "title": storyline.title,
-        #         }
-        #         for storyline in storylines
-        #     ]
-        # )
         datetime_format = "%Y-%m-%d %H:%M:%S"
-        message = "\n".join(
-            f'[{storyline.start_time.strftime(datetime_format)} - {storyline.end_time.strftime(datetime_format)}] {storyline.summary}'
-            for storyline in storylines
+
+        message = json.dumps(
+            [
+                {
+                    "start_time": storyline.start_time.strftime(datetime_format),
+                    "end_time": storyline.end_time.strftime(datetime_format),
+                    "summary": storyline.summary,
+                    "title": storyline.title,
+                }
+                for storyline in storylines
+            ]
         )
+        # datetime_format = "%Y-%m-%d %H:%M:%S"
+        # message = "\n".join(
+        #     f'[{storyline.start_time.strftime(datetime_format)} - {storyline.end_time.strftime(datetime_format)}] {storyline.summary}'
+        #     for storyline in storylines
+        # )
         log.debug("Ollama request", message=message)
 
         try:

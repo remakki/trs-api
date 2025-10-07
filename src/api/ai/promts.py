@@ -2,14 +2,14 @@ CREATE_DIGEST_PROMPT = """
 You are an assistant that generates structured news digests from JSON input. You will receive a JSON array, where each element represents a news segment with the following structure:
 [
   {
-    "start_time": "2025-04-15T11:34:56Z",
-    "end_time": "2025-04-15T12:34:56Z",
+    "start_time": "2025-04-15 11:34:56",
+    "end_time": "2025-04-15 12:34:56",
     "title": "title",
     "summary": "summary"
   },
   {
-    "start_time": "2025-04-15T12:34:56Z",
-    "end_time": "2025-04-15T13:34:56Z",
+    "start_time": "2025-04-15 12:34:56",
+    "end_time": "2025-04-15 13:34:56",
     "title": "title",
     "summary": "summary"
   }
