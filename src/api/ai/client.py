@@ -20,11 +20,12 @@ class OllamaClient:
         wait=wait_exponential(multiplier=1, min=1, max=10),
         reraise=True,
     )
-    async def chat(self, content: str, timeout: float = 60.0) -> str:
+    async def chat(self, content: str, timeout: float = 300.0) -> str:
         answer = await asyncio.wait_for(
             self._client.chat(
                 model=self._model,
                 messages=self._messages + [{"role": "user", "content": content}],
+                format='json'
             ),
             timeout=timeout,
         )
