@@ -45,8 +45,8 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
 
         try:
             result = await ollama_client.chat(content=message)
+            log.debug("Ollama response", result=result)
             result_json = json.loads(result)
-            log.debug("Ollama response", result=result_json)
             if "title" not in result_json or "summary" not in result_json:
                 raise ValueError()
         except json.JSONDecodeError as e:
