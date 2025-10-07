@@ -26,7 +26,6 @@ class OllamaClient:
                 model=self._model,
                 messages=self._messages + [{"role": "user", "content": content}],
                 format='json',
-                think='high',
                 options={
                     'temperature': 0.7,
                     'seed': 42,
