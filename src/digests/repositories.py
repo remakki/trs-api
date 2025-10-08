@@ -20,6 +20,7 @@ class DigestRepository(SQLAlchemyAsyncRepository[DigestModel]):
                 TagModel.name.label("tag_name"),
                 func.count().label("tag_count"),
             )
+            .select_from(DigestModel)
             .join(digest_storyline_table, DigestModel.id == digest_storyline_table.c.digest_id)
             .join(StorylineModel, StorylineModel.id == digest_storyline_table.c.storyline_id)
             .join(storyline_tag_table, StorylineModel.id == storyline_tag_table.c.storyline_id)
