@@ -13,7 +13,7 @@ class OllamaClient:
             headers={"Authorization": f"Bearer {settings.OLLAMA_TOKEN}"},
         )
         self._model = model or settings.OLLAMA_MODEL
-        self._system_prompt = system_prompt
+        self._messages = [{"role": "system", "content": system_prompt}]
 
     @retry(
         stop=stop_after_attempt(3),
@@ -24,12 +24,7 @@ class OllamaClient:
         answer = await asyncio.wait_for(
             self._client.chat(
                 model=self._model,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": f"{self._system_prompt}\n\nList of news segments:\n{content}",
-                    }
-                ],
+                messages=self._messages + [{"role": "user", "content": content}],
             ),
             timeout=timeout,
         )
