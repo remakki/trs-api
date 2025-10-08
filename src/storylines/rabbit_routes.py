@@ -9,6 +9,7 @@ from src.storylines.schemas import StorylineMessage, Storyline
 
 rabbit_router = RabbitRouter(settings.RABBITMQ_URL, include_in_schema=False)
 
+
 @rabbit_router.subscriber(RabbitQueue(name="new_storyline", durable=True))
 @rabbit_router.publisher(RabbitQueue(name="storyline_notification", durable=True))
 async def storyline_handler(
