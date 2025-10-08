@@ -4,7 +4,6 @@ from fastapi import FastAPI
 
 from src import log
 from src.scheduler import add_default_jobs, scheduler
-from src.scheduler import create_daily_digest
 
 
 @asynccontextmanager
@@ -15,7 +14,6 @@ async def lifespan(app: FastAPI):
     add_default_jobs()
     log.info("Scheduler started")
     log.info("Application started")
-    await create_daily_digest(6)
 
     yield
     log.info("Shutting down application...")
