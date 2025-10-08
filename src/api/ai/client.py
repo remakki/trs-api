@@ -30,11 +30,6 @@ class OllamaClient:
                         "content": f"{self._system_prompt}\n\nList of news segments:\n{content}",
                     }
                 ],
-                format="json",
-                options={
-                    "temperature": 0.7,
-                    "seed": 42,
-                },
             ),
             timeout=timeout,
         )
