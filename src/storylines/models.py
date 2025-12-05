@@ -22,7 +22,7 @@ class StorylineModel(BigIntAuditBase):
     end_time: Mapped[datetime]  # utc
     title: Mapped[str]
     summary: Mapped[str]
-    summary_ru: Mapped[str]
+    summary_ru: Mapped[str | None]
     temperature: Mapped[str]
 
     source_id: Mapped[int] = mapped_column(ForeignKey("sources.id"), nullable=False)

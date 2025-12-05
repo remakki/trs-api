@@ -9,7 +9,7 @@ class StorylineMessage(BaseSchema):
     end_time: datetime
     title: str
     summary: str
-    summary_ru: str
+    summary_ru: str | None = None
     temperature: str
 
     source_id: int
@@ -21,7 +21,7 @@ class Storyline(BaseSchema):
     id: int
     title: str
     summary: str
-    summary_ru: str
+    summary_ru: str | None = None
     temperature: str
     start_time: datetime
     end_time: datetime
