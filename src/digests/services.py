@@ -27,6 +27,7 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
         storylines = await self._storyline_service.list(
             StorylineModel.start_time >= digest.start_time,
             StorylineModel.end_time <= digest.end_time,
+            source_id=digest.source_id,
         )
         ollama_client = OllamaClient(system_prompt=CREATE_DIGEST_PROMPT)
 
@@ -82,6 +83,7 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
             digest = Digest(
                 **new_digest.to_dict(),
                 tags=[tag.model_dump() for tag in tags],
+                to_chat_id=digest.to_chat_id
             )
             await publish_new_digest(digest)
 

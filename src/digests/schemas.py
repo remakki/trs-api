@@ -8,6 +8,8 @@ class DigestCreate(BaseSchema):
     type: DigestType
     start_time: datetime
     end_time: datetime
+    source_id: int
+    to_chat_id: str
 
 
 class DigestTag(BaseSchema):
@@ -23,5 +25,6 @@ class Digest(BaseSchema):
     start_time: datetime
     end_time: datetime
     created_at: datetime | None = None
+    to_chat_id: str
 
     tags: list[DigestTag]

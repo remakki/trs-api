@@ -38,4 +38,5 @@ async def storyline_handler(
         start_time=storyline.start_time,
         end_time=storyline.end_time,
         temperature=storyline.temperature,
+        to_chat_id=storyline.source.chat_id,
     )
