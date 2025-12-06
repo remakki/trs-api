@@ -9,6 +9,7 @@ class DigestCreate(BaseSchema):
     start_time: datetime
     end_time: datetime
     source_id: int
+    language: str
     to_chat_id: str
 
 

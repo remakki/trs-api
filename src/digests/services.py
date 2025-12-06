@@ -5,7 +5,7 @@ from advanced_alchemy.extensions.fastapi import service
 from .rabbit_routes import publish_new_digest
 from .. import log
 from ..api.ai import OllamaClient
-from ..api.ai.promts import CREATE_DIGEST_PROMPT
+from ..api.ai.promts import get_create_digest_prompt
 from ..storylines.models import StorylineModel
 from .models import DigestModel, DigestType
 from .repositories import DigestRepository
@@ -29,7 +29,9 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
             StorylineModel.end_time <= digest.end_time,
             source_id=digest.source_id,
         )
-        ollama_client = OllamaClient(system_prompt=CREATE_DIGEST_PROMPT)
+        ollama_client = OllamaClient(
+            system_prompt=get_create_digest_prompt(language=digest.language)
+        )
 
         datetime_format = "%Y-%m-%d %H:%M:%S"
 
@@ -45,7 +47,7 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
         #     ]
         # )
         message = "\n".join(
-            f'[{storyline.start_time.strftime(datetime_format)} - {storyline.end_time.strftime(datetime_format)}] {storyline.summary}'
+            f"[{storyline.start_time.strftime(datetime_format)} - {storyline.end_time.strftime(datetime_format)}] {storyline.summary}"
             for storyline in storylines
         )
         log.debug("Ollama request", message=message)
@@ -83,7 +85,7 @@ class DigestService(service.SQLAlchemyAsyncRepositoryService[DigestModel, Digest
             digest = Digest(
                 **new_digest.to_dict(),
                 tags=[tag.model_dump() for tag in tags],
-                to_chat_id=digest.to_chat_id
+                to_chat_id=digest.to_chat_id,
             )
             await publish_new_digest(digest)
 

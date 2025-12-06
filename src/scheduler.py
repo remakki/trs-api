@@ -24,6 +24,7 @@ async def create_daily_digests(delta_hours: int) -> None:
                 start_time=datetime.now(timezone.utc) - timedelta(hours=delta_hours),
                 end_time=datetime.now(timezone.utc),
                 source_id=source.id,
+                language=source.language,
                 to_chat_id=source.chat_id,
             )
             await service.create_digest(digest_data)

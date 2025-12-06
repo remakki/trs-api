@@ -62,3 +62,9 @@ Output:
   "summary": "Severe flooding struck Thailand and Vietnam after heavy monsoon rains displaced tens of thousands of people. The United Nations issued an emergency $200 million appeal to support relief operations. Scientists linked the worsening monsoon patterns to global climate change, calling for stronger international climate action."
 }
 """
+
+
+def get_create_digest_prompt(language: str) -> str:
+    language = "English" if language.lower() == "en" else language
+    language = "Russian" if language.lower() == "ru" else language
+    return CREATE_DIGEST_PROMPT + f"\nRespond in {language}."
